@@ -1,0 +1,10 @@
+{
+  "43114": {
+    "vault": "0x26A5F3601247c90ff871c24E9cCc74A89de94Afb",
+    "strat": "0xe1f7DA9a70538A8e575035293A597b241eD18Bc1"
+  },
+  "test": {
+    "vault": "0x40a42Baf86Fc821f972Ad2aC878729063CeEF403",
+    "strat": "0x4bf010f1b9beDA5450a8dD702ED602A104ff65EE"
+  }
+}

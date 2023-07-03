@@ -1,0 +1,66 @@
+Contracts tested good
+~~~~~~~~~~~~~~~~~~~~~
+
+v BTC.b-WAVAX
+v GMX-USDC
+v GRAIN-WAVAX
+x OATH-WETH.e
+x WETH.e-USDT.e
+x wMEMO-WAVAX
+x YAK-WAVAX
+- WAVAX-USDT.e
+x GLCR-fBOMB
+v GLCR-WAVAX
+- WAVAX-EUROC
+
+
+to test
+~~~~~~~
+
+Cancelled
+~~~~~~~~~
+
+ankrETH-ankrAVAX  // no liquidity with gl router!?!?
+ANKR-ankrAVAX     // overflow addLiquidity
+xSHRAP-WETH.e     // over/under flow addLiquidity. Need to use odos swap not
+                  // swapExactTokensForTokens for GLCR to xSHRAP etc
+
+
+Deployed Contracts
+~~~~~~~~~~~~~~~~~~
+
+xG-BTC.b-WAVAX
+    "vault": "0xd6cF888598EffB3B71b6A1Da11466b257B17BF0D",
+    "strat": "0xb9fdBeC9963Ca65BF74c7162eE387fC67A3d754e"
+
+xG-GMX-USDC
+    "vault": "0x85D77A757b5e02857736eF4A4714FEb0E3608481",
+    "strat": "0x7CEBf022eA8B8D2d9eaC63cdB737166310c2efE4"
+
+xG-GRAIN-WAVAX
+    "vault": "0x531014cEBd82b2AEBc2731D4f1485f53B7c67352",
+    "strat": "0xc9aee3bb5Df9FC61CEa463f24C8d96f655dE6c38"
+
+xG-GLCR-WAVAX
+    "vault": "0x4fbfac932Bcbb9753eFd12AC7DFEe4BAf0bE3Eb8",
+    "strat": "0x5bEc82EFA555b2419e91d828381ddbF349E12fA0"
+
+xG-GLCR-fBOMB
+    "vault": "0x26A5F3601247c90ff871c24E9cCc74A89de94Afb",
+    "strat": "0xe1f7DA9a70538A8e575035293A597b241eD18Bc1"
+
+xg-OATH-WETH.e
+    "vault": "0xc51F1Ebf20dd4Ac3a44dcc7Eacd34330EF173b45",
+    "strat": "0x29899d4987bA908087E11174Fd66934770bcEB2E"
+
+xG-wMEMO-WAVAX
+    "vault": "0x33638F8816B51fd000395cD2A18b563ad0164524",
+    "strat": "0x528B98316C79Ef69048D50e6549F5E20E0fdB7d9"
+    
+xG-WETH.e-USDT.e
+    "vault": "0xfe4722eD8F8b39584DB2A0FA1Cc82AA03aAE0A8b",
+    "strat": "0x7385BA0eD3f464AA344C1261d8ffa1C85301E110"
+
+xG-YAK-WAVAX
+    "vault": "0x916733262D5AF8Bc3dDe212d14eD64154591AE13",
+    "strat": "0x09E360d49dE260ac028921eD9ca58BE710aef062"

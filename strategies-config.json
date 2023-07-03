@@ -1,0 +1,520 @@
+[
+  {
+    "name": "WETH.e-USDT.e",
+    "contract": "StratXX",
+    "want": "0x0717C121D012e46a429a488eBA1DB22AD1051FDd",
+    "gauge": "0x2E0D32C5D98e0007C95eeD54d450d2E8155EDf48",
+    "price0": 1860.086374997148,
+    "price1": 0,
+    "token0": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+    "token1": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "stable": false
+      },
+      {
+        "from": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "to": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "BTC.b-WAVAX",
+    "contract": "StratXX",
+    "want": "0x18947bF710e9DDdEa8f7c33e2C9b93a6482be6A2",
+    "gauge": "0xa4c42A2C93AbDbE9CEa8B40008967D66A7e23EB0",
+    "price0": 30221.68,
+    "price1": 13.25163565,
+    "token0": "0x152b9d0FdC40C096757F570A51E494bd4b943E50",
+    "token1": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0x152b9d0FdC40C096757F570A51E494bd4b943E50",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "GLCR-WAVAX",
+    "contract": "StratGlcrX",
+    "want": "0x2071A39DA7450d68e4F4902774203DF208860Da2",
+    "gauge": "0xB8ef1Caf4a1A0c3D69724657b179c8836da1737d",
+    "price0": 0.00477,
+    "price1": 13.24,
+    "tokenX": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    "pathToX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "GRAIN-WAVAX",
+    "contract": "StratXX",
+    "want": "0x21F1d5460cC69326d6554366F4c8F61B4D40aba4",
+    "gauge": "0x0E9b2032338bDaE350BE68e74D5276Ebebe4f552",
+    "price0": 0.02478,
+    "price1": 13.25163565,
+    "token0": "0x9df4Ac62F9E435DbCD85E06c990a7f0ea32739a9",
+    "token1": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0x9df4Ac62F9E435DbCD85E06c990a7f0ea32739a9",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "wMEMO-WAVAX",
+    "contract": "StratXX",
+    "want": "0x322F83CB72869a776B7F070b4866209354396546",
+    "gauge": "0x5758A136418Bcb35Ea4DC1FD6fbc1E7d3e9995da",
+    "price0": 30838.305875274935,
+    "price1": 13.23,
+    "token0": "0x0da67235dD5787D67955420C84ca1cEcd4E5Bb3b",
+    "token1": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0x0da67235dD5787D67955420C84ca1cEcd4E5Bb3b",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "WAVAX-EUROC",
+    "contract": "StratXX",
+    "want": "0x32A199f6F7Bf9e04c19190A9b285DdDECA29303e",
+    "gauge": "0x334f717cFC96715DEB0C57075E6157377803D902",
+    "price0": 131.9,
+    "price1": 10.81,
+    "token0": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    "token1": "0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "GMX-USDC",
+    "contract": "StratXX",
+    "want": "0x32E3f290cD0dBE930fa286f0C2a9a958B3A03e30",
+    "gauge": "0xC0d0b21bfF732eCE3aD7f8502B58741EdB48D4D4",
+    "price0": 53.07784875799823,
+    "price1": 0.99980957,
+    "token0": "0x62edc0692BD897D2295872a9FFCac5425011c661",
+    "token1": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0x62edc0692BD897D2295872a9FFCac5425011c661",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "ANKR-ankrAVAX",
+    "contract": "StratXX",
+    "want": "0x535492c872f3AE11C73a0A97F5f069715BB2D505",
+    "gauge": "0x5F9b043a3D6B166C87bB321c268Dfd42511de75D",
+    "price0": 0.02516,
+    "price1": 13.9,
+    "token0": "0x20CF1b6E9d856321ed4686877CF4538F2C84B4dE",
+    "token1": "0xc3344870d52688874b06d844E0C36cc39FC727F6",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0x20CF1b6E9d856321ed4686877CF4538F2C84B4dE",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xc3344870d52688874b06d844E0C36cc39FC727F6",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "ankrETH-ankrAVAX",
+    "contract": "StratXX",
+    "want": "0x57cA6313045558A48375d1Bee1bBF1C7ceBbAb2B",
+    "gauge": "0x6d5e7A2E2Bb58393c4B51066461eD6981Ea1Ae2A",
+    "price0": 2067.456180387255,
+    "price1": 13.9,
+    "token0": "0x12D8CE035c5DE3Ce39B1fDD4C1d5a745EAbA3b8C",
+    "token1": "0xc3344870d52688874b06d844E0C36cc39FC727F6",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "stable": false
+      },
+      {
+        "from": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "to": "0x12D8CE035c5DE3Ce39B1fDD4C1d5a745EAbA3b8C",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xc3344870d52688874b06d844E0C36cc39FC727F6",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "WAVAX-USDT.e",
+    "contract": "StratXX",
+    "want": "0x5A5df1A7d9A35188243115dd9b6cE3B59B7f3A46",
+    "gauge": "0xD9c41a9EC8c9136ff7748059DAB1537d3D1E2Fc1",
+    "price0": 13.25163565,
+    "price1": 0,
+    "token0": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    "token1": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "WAVAX-DEUS",
+    "contract": "StratXX",
+    "want": "0x984c4c9836CB005476D0590684049ebCC978291E",
+    "gauge": "0x53D74Ae91C1414c905BD6989aDb6BBDb2eD877bf",
+    "price0": 13.24,
+    "price1": 26.398399064119886,
+    "token0": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    "token1": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xDE5ed76E7c05eC5e4572CfC88d1ACEA165109E44",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "OATH-WETH.e",
+    "contract": "StratXX",
+    "want": "0xE2E6b65119576FdD56ED12Caec22Acdf89c20581",
+    "gauge": "0xEb51DE0A028f01e39A4718eFCBafb6a694209a57",
+    "price0": 0.06596660903422642,
+    "price1": 1851.4394955103799,
+    "token0": "0x2c69095d81305F1e3c6ed372336D407231624CEa",
+    "token1": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "stable": false
+      },
+      {
+        "from": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "to": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "stable": false
+      },
+      {
+        "from": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "to": "0x2c69095d81305F1e3c6ed372336D407231624CEa",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "stable": false
+      },
+      {
+        "from": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "to": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "xSHRAP-WETH.e",
+    "contract": "StratXX",
+    "want": "0xF63B2921403817E9c02cf47Bd2B9Dd183568f02C",
+    "gauge": "0xCF13d432853cc792089961B6377509b3d95092D5",
+    "price0": 50.065,
+    "price1": 1858.4531189523186,
+    "token0": "0x1e3c6c53F9f60BF8aAe0D7774C21Fa6b1afddC57",
+    "token1": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "stable": false
+      },
+      {
+        "from": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "to": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "stable": false
+      },
+      {
+        "from": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "to": "0x1e3c6c53F9f60BF8aAe0D7774C21Fa6b1afddC57",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "stable": false
+      },
+      {
+        "from": "0xc7198437980c041c805A1EDcbA50c1Ce5db95118",
+        "to": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "YAK-WAVAX",
+    "contract": "StratXX",
+    "want": "0xa13403733dB5C101490436CfFF012F6ac93A6097",
+    "gauge": "0xe68B719EDb685D63C58a133005f0fb307Eb5F289",
+    "price0": 306.89912357528385,
+    "price1": 13.2318,
+    "token0": "0x59414b3089ce2AF0010e7523Dea7E2b35d776ec7",
+    "token1": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0x59414b3089ce2AF0010e7523Dea7E2b35d776ec7",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "USDC-DEI",
+    "contract": "StratXX",
+    "want": "0xd2dC4b6c27a5937C8f701D6502BfCbb85fB8565b",
+    "gauge": "0xBCF3E8Bd7a081B53C910D5ac4aa86a74FCe91dd0",
+    "price0": 0.99980957,
+    "price1": 0.28683997453502713,
+    "token0": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+    "token1": "0xDE1E704dae0B4051e80DAbB26ab6ad6c12262DA0",
+    "path0toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+        "stable": false
+      }
+    ],
+    "path1toX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+        "stable": false
+      },
+      {
+        "from": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "to": "0xDE1E704dae0B4051e80DAbB26ab6ad6c12262DA0",
+        "stable": false
+      }
+    ]
+  },
+  {
+    "name": "GLCR-fBOMB",
+    "contract": "StratGlcrX",
+    "want": "0xf9728ccE66d4128e76C86D9bBaC08fC2F3641A05",
+    "gauge": "0x642eb8CD5E96cc39d27954b22A1745Db5C153b98",
+    "price0": 0.00477,
+    "price1": 0.004743,
+    "tokenX": "0x5C09A9cE08C4B332Ef1CC5f7caDB1158C32767Ce",
+    "pathToX": [
+      {
+        "from": "0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6",
+        "to": "0x5C09A9cE08C4B332Ef1CC5f7caDB1158C32767Ce",
+        "stable": false
+      }
+    ]
+  }
+]

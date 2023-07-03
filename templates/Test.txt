@@ -1,0 +1,22 @@
+const base = require('./modules/vaultStratBase')
+
+describe("$TOKEN_NAME", base.main(
+  // Contract, stratName
+  '$CONTRACT', '$STRATNAME',
+  // Want, Gauge
+  '$WANT', '$GAUGE', 
+  // Token0, Token0 Name
+  '$TOKEN0', '$TOKEN0_NAME', 
+  // Token1, Token1 Name
+  '$TOKEN1', '$TOKEN1_NAME',
+  // Has token0, token0 Qty
+  '$HASTOKEN0', $TOKEN0QTY, 
+  // has token1, token1 Qty
+  '$HASTOKEN1', $TOKEN1QTY,
+  // Path GLCR to token0:
+  $PATH0TOX, 
+  // Path GLCR to token1:
+  $PATH1TOX,
+  // Is stable:
+  $ISSTABLE
+))
