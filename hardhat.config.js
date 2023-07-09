@@ -23,18 +23,39 @@ module.exports = {
     },
   },
   networks: {
+    // ETHEREUM::
+    // hardhat: {
+    //   // chainId: 1337,
+    //   chainId: 1,
+    //   gasPrice: 225000000000,
+    //   forking: {
+    //     url: 'https://rpc.ankr.com/eth/0799f87f6f659a3c3805a39de574b9cba88c91f2bc3af3b7dcc978b60f421623',
+    //     // blockNumber: 31890832, //31632109,
+    //     // accounts: [process.env['TESTKP']],
+    //     live: false,
+    //     // saveDeployments: true,
+    //   },
+    //   allowUnlimitedContractSize: true,
+    // },
+
+    // AVALANCHE::
     hardhat: {
       // chainId: 1337,
       chainId: 43114,
       gasPrice: 225000000000,
       forking: {
         url: `https://api.avax.network/ext/bc/C/rpc`,
-        // blockNumber: 31890832, //31632109,
+        blockNumber: 32380120, //31890832, //31632109,
         accounts: [process.env['TESTKP']],
         live: false,
         // saveDeployments: true,
       },
-      allowUnlimitedContractSize: true,
+      // allowUnlimitedContractSize: true,
+    },
+    localnet: {
+      chainId: 43114,
+      gasPrice: 225000000000,
+      url: "http://127.0.0.1:8545"
     },
     // ganache: {
     //   url: "http://127.0.0.1:8545",
@@ -52,6 +73,21 @@ module.exports = {
       url: "https://api.avax.network/ext/bc/C/rpc",
       //gasPrice: 225000000000,
       accounts: [process.env.DEPLOY_KEY, process.env.PERSONAL_KEY]
+    },
+
+    // ethereumfork: {
+    //   chainId: 1,
+    //   //url: "https://rpc.ankr.com/eth/0799f87f6f659a3c3805a39de574b9cba88c91f2bc3af3b7dcc978b60f421623"
+    //   forking: {
+    //     url: 'https://rpc.ankr.com/eth/0799f87f6f659a3c3805a39de574b9cba88c91f2bc3af3b7dcc978b60f421623',
+    //     // blockNumber: 31890832, //31632109,
+    //     accounts: [process.env['TESTKP']],
+    //     live: false,
+    //     // saveDeployments: true,
+    //   },
+    // },
+    ethereummainnet: {
+      url: "https://rpc.ankr.com/eth/0799f87f6f659a3c3805a39de574b9cba88c91f2bc3af3b7dcc978b60f421623"
     }
 
   },
