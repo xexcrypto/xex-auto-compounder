@@ -1,7 +1,13 @@
 // const { task } = require("hardhat/config");
 // const { run } = require("hardhat");
 const fs = require("fs");
-const helpers = require('../scripts/helpers.js')
+const path = require('path');
+const helpers = require('../helpers.js')
+
+require('require-json5').replace();
+const configPath = path.join(__dirname, '../../strategies-glacier-config.json5');
+console.log(configPath)
+const config = require(configPath);
 
 
 const HAS_TOKEN = {
@@ -24,6 +30,8 @@ const HAS_TOKEN = {
   'YAK':      '0x0cf605484a512d3f3435fed77ab5ddc0525daf5f',  // 0x59414b3089ce2AF0010e7523Dea7E2b35d776ec7
   'DEI':      '0x37ac09e1640577e1d71e3787297a56b58f88f0f2',  // 0xDE1E704dae0B4051e80DAbB26ab6ad6c12262DA0
   'fBOMB':    '0x28aa4f9ffe21365473b64c161b566c3cdead0108',  // 0x5C09A9cE08C4B332Ef1CC5f7caDB1158C32767Ce
+  'MIM':      '0xae64a325027c3c14cf6abc7818aa3b9c07f5c799',  // 0x130966628846BFd36ff31a822705796e8cb8C18D
+  'GRAPE':    '0xb382247667fe8ca5327ca1fa4835ae77a9907bc8',  // 0x5541D83EFaD1f281571B343977648B75d95cdAC2
 }
 const TOKEN_AMOUNTS = {
   'WETH.e-USDT.e': { q0:1, q1:1860},
@@ -42,6 +50,7 @@ const TOKEN_AMOUNTS = {
   'YAK-WAVAX': { q0:10, q1:0.7},
   'USDC-DEI': { q0:10, q1:2.8},
   'GLCR-fBOMB': { q0:10, q1:10},
+  'MIM-GRAPE': { q0:1, q1:63},
 }
 const IS_STABLE = [
   'USDC-DEI'
@@ -61,7 +70,7 @@ async function main() {
   // generates test fixtures for all pools \\
 
   // Load config:
-  let config = JSON.parse(await helpers.getJsonFile('strategies-config.json', '{}'));
+  // let config = JSON.parse(await helpers.getJsonFile('strategies-glacier-config.json', '{}'));
   let template = await fs.promises.readFile('templates/Test.txt')
 
   const jobs = config //.filter(c => runAll || c.name == taskArguments.stratName)
@@ -70,7 +79,7 @@ async function main() {
     // if disabled, remove the trest file:
     if (disabled.includes(conf.name)){
       // remove test file:
-      try{ fs.unlinkSync(`test/test-${conf.name}.js`) }catch(e){}
+      try{ fs.unlinkSync(`test/Glacier/test-${conf.name}.js`) }catch(e){}
       continue;
     }
 
@@ -113,7 +122,8 @@ async function main() {
     }
 
     // Generate the text:
-    let tmpl = template.toString().replace('$TOKEN_NAME', conf.name)
+    let tmpl = template.toString().replace('$MODULE', './modules/vaultStratBase')
+    tmpl = tmpl.replace('$TOKEN_NAME', conf.name)
     tmpl = tmpl.replace('$CONTRACT', conf.contract)
     tmpl = tmpl.replace('$STRATNAME', conf.name)
     
@@ -139,9 +149,11 @@ async function main() {
 
 
     // save test file:
-    await fs.promises.writeFile(`test/test-${conf.name}.js`, tmpl)
+    await fs.promises.writeFile(`test/Glacier/test-${conf.name}.js`, tmpl)
 
   }
+
+  process.exit(0)
 
 }
 

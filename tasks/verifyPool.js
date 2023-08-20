@@ -1,7 +1,7 @@
 const { task } = require("hardhat/config");
 const helpers = require('../scripts/helpers.js')
 const fs = require("fs");
-const StratABI = JSON.parse(fs.readFileSync('artifacts/contracts/_StratBase.sol/_StratBase.json')).abi
+// const StratABI = JSON.parse(fs.readFileSync('artifacts/contracts/_StratBase.sol/_StratBase.json')).abi
 
 const addrs = {
   GLRouter: '0xC5B8Ce3C8C171d506DEb069a6136a351Ee1629DC',
@@ -21,7 +21,7 @@ task("verifyPool", "* Verify the vault and strat with Snowtrace")
     const accounts = await hre.ethers.getSigners();
 
     // Load config:
-    let config = JSON.parse(await helpers.getJsonFile('strategies-config.json', '{}'));
+    let config = JSON.parse(await helpers.getJsonFile('strategies-glacier-config.json', '{}'));
 
     // filter config:
     const conf = config.find(c => c.name == _taskArgs.stratName)

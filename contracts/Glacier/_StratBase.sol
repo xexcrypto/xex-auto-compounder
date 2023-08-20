@@ -21,6 +21,7 @@ contract _StratBase is Ownable, Pausable {
     // Third party contracts
     address public gauge;
     address public router;
+    address public swapper;
 
     // Strategy addresses
     address public xexadons     = address(0x8eD98Eeb0c360d1b7C8ab5e85Dc792A1e4B18D8c);
@@ -317,6 +318,10 @@ contract _StratBase is Ownable, Pausable {
             require(msg.sender == strategist, "!auth");
             strategist = newAddress;
             emit SetStrategist(newAddress);
+            
+        } else if (which == 5) {
+            require(msg.sender == strategist, "!auth");
+            swapper = newAddress;
         }
     }
 

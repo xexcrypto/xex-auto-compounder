@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "./interfaces/IGlacierStrat.sol";
+import "./interfaces/IStrategy.sol";
 
 /**
 Implementation of a vault to deposit funds for yield optimizing
@@ -24,7 +24,7 @@ contract Vault is ERC20, Ownable, ReentrancyGuard {
     // The last proposed strategy to switch to.
     StratCandidate public stratCandidate;
     // The strategy currently in use by the vault.
-    IGlacierStrat public strategy;
+    IStrategy public strategy;
     // The minimum time it has to pass before a strat candidate can be approved, set to 24 hours
     uint256 constant approvalDelay = 86400; // 24h
 
@@ -41,7 +41,7 @@ contract Vault is ERC20, Ownable, ReentrancyGuard {
      to withdraw the corresponding portion of the underlying assets.
      */
     constructor (
-        IGlacierStrat _strategy,
+        IStrategy _strategy,
         string memory _name,
         string memory _symbol
     ) ERC20(
@@ -63,7 +63,7 @@ contract Vault is ERC20, Ownable, ReentrancyGuard {
      & balance deployed in other contracts as part of the strategy.
      */
     function balance() public view returns (uint) {
-        return want().balanceOf(address(this)) + IGlacierStrat(strategy).balanceOf();
+        return want().balanceOf(address(this)) + IStrategy(strategy).balanceOf();
     }
 
     /**
@@ -151,7 +151,7 @@ contract Vault is ERC20, Ownable, ReentrancyGuard {
      * @param _implementation The address of the candidate strategy.
      */
     function proposeStrat(address _implementation) public onlyAdmin {
-        require(address(this) == IGlacierStrat(_implementation).vault(), "!Valid proposal");
+        require(address(this) == IStrategy(_implementation).vault(), "!Valid proposal");
         stratCandidate = StratCandidate({
             implementation: _implementation,
             proposedTime: block.timestamp
@@ -173,7 +173,7 @@ contract Vault is ERC20, Ownable, ReentrancyGuard {
         emit UpgradeStrat(stratCandidate.implementation);
 
         strategy.retireStrat();
-        strategy = IGlacierStrat(stratCandidate.implementation);
+        strategy = IStrategy(stratCandidate.implementation);
         stratCandidate.implementation = address(0);
         stratCandidate.proposedTime = 5000000000;
 

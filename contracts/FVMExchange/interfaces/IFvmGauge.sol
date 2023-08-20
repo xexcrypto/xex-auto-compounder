@@ -1,0 +1,18 @@
+//SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.17;
+
+interface IFvmGauge {
+  function getReward(address account, address[] memory tokens) external;
+  function earned(address token, address account) external view returns (uint256);
+  function deposit(uint256 amount, uint256 tokenId) external;
+  function withdraw(uint256 amount) external;
+  function notifyRewardAmount(address token, uint amount) external;
+
+  // This is balanceOf():
+  function derivedBalance(address account) external view returns (uint);  
+
+  function left(address token) external view returns (uint);
+  function isForPair() external view returns (bool);
+  function stake() external view returns (address);
+}

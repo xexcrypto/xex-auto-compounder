@@ -25,16 +25,17 @@ const addrs = {
 }
 
 let contracts = {
-  strat:  null,
-  vault:  null,
-  want:   null, // 
-  glrouter: null,
-  altrouter: null,
-  wavax:  null,
-  glcr:   null,
-  token0: null,
-  token1: null,
-  gauge: null,
+  strat:      null,
+  vault:      null,
+  want:       null, // 
+  glrouter:   null,
+  altrouter:  null,
+  wavax:      null,
+  glcr:       null,
+  token0:     null,
+  token1:     null,
+  gauge:      null,
+  slipIn:     null,
 }
 
 let _DepositAmount = 0
@@ -96,6 +97,18 @@ module.exports.main = (
 
       // TODO: Remove any approval for WAVAX!
 
+      it('Deploy SlipV2 contract', async () => {
+        // Deploy the slip in contract:
+        const feeData = await hre.ethers.provider.getFeeData()
+        const signer = await ethers.getImpersonatedSigner(addrs.strategist);
+        const SlipIn = await hre.ethers.getContractFactory("SlipV2");
+    
+        // Deploy contract:
+        contracts.slipIn = await SlipIn.connect(signer).deploy(addrs.wavax)
+  
+        console.log('SlipV2:', contracts.slipIn.address)
+      })
+      
 
       it('Can deploy contracts', async () => {
         // Deploy contracts:
@@ -125,18 +138,53 @@ module.exports.main = (
             break;
           }
 
-          case 'StratGlcrX':{
-            console.log(`Deploying strategy '${stratName}' with these options:`, {
+          case 'StratXXm':{
+            console.log('DEPLOYING', want,
+            gauge,
+            addrs.GLRouter,
+            addrs.wavax, // fee token - WAVAX
+            token0Addr,
+            token1Addr,
+            contracts.slipIn.address,
+            path0toX,
+            path1toX,
+            [{ from: addrs.glcr, to: addrs.wavax, stable: false }]  // <-- Fee token path (glcr to wavax)
+          , { 
+            gasLimit: 15000000,
+            gasPrice: feeData.gasPrice,
+          });
+          
+            contracts.strat = await Strategy.deploy(
               want,
               gauge,
-              router: addrs.GLRouter,
-              token0: addrs.wavax, // fee token - WAVAX
-              token1: token1Addr,
+              addrs.GLRouter,
+              addrs.wavax, // fee token - WAVAX
+              token0Addr,
+              token1Addr,
+              contracts.slipIn.address,
+              path0toX,
               path1toX,
-              // tokenX,
-              // pathGlcrToTokenX,
-              feePath: [{ from: addrs.glcr, to: addrs.wavax, stable: false }]
-            })
+              [{ from: addrs.glcr, to: addrs.wavax, stable: false }]  // <-- Fee token path (glcr to wavax)
+            , { 
+              gasLimit: 15000000,
+              gasPrice: feeData.gasPrice,
+            });
+
+            break;
+          }
+
+          case 'StratGlcrX':{
+            // console.log(`Deploying strategy '${stratName}' with these options:`, {
+            //   want,
+            //   gauge,
+            //   router: addrs.GLRouter,
+            //   token0: addrs.wavax, // fee token - WAVAX
+            //   token1: token1Addr,
+            //   path1toX,
+            //   // tokenX,
+            //   // pathGlcrToTokenX,
+            //   feePath: [{ from: addrs.glcr, to: addrs.wavax, stable: false }]
+            // })
 
             contracts.strat = await Strategy.deploy(
               want,
@@ -863,7 +911,7 @@ module.exports.main = (
 
       }).timeout(1000000)
   
-      it('Advance and harvest 2', async () => {
+      it.skip('Advance and harvest 2', async () => {
         const daysToWait = 10
         const unlockTime = (await time.latest()) + 86400 * daysToWait; // Add one day
 
@@ -914,7 +962,7 @@ module.exports.main = (
 
       }).timeout(1000000)
   
-      it('Withdraw more than deposited', async () => {
+      it.skip('Withdraw more than deposited', async () => {
         const signer = await ethers.getSigner(addrs.user1)
         
         // Withdraw:

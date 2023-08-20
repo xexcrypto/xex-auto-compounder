@@ -1,15 +1,25 @@
 const { task } = require("hardhat/config");
 const helpers = require('../scripts/helpers.js')
 const fs = require("fs");
-const StratABI = JSON.parse(fs.readFileSync('artifacts/contracts/_StratBase.sol/_StratBase.json')).abi
+// const StratABI = JSON.parse(fs.readFileSync('artifacts/contracts/_StratBase.sol/_StratBase.json') || '{}')?.abi
 
 task("setVaultOnStrat", "* Sets the vault address of strategy")
   .addParam("stratName", "Name of strat to deploy")
   .setAction(async (_taskArgs, hre) => {
     const accounts = await hre.ethers.getSigners();
 
+    // Load strat abi:
+    let StratABI
+
+    try{
+      StratABI = JSON.parse(fs.readFileSync('artifacts/contracts/_StratBase.sol/_StratBase.json'))?.abi
+    } catch {
+      console.log('Base Strategy artifact not found')
+      return
+    }
+
     // Load config:
-    let config = JSON.parse(await helpers.getJsonFile('strategies-config.json', '{}'));
+    let config = JSON.parse(await helpers.getJsonFile('strategies-glacier-config.json', '{}'));
 
     // filter config:
     const conf = config.find(c => c.name == _taskArgs.stratName)

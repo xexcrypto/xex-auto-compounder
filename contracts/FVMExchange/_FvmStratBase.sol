@@ -5,15 +5,20 @@ pragma solidity 0.8.17;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "./interfaces/IGlacierRouter.sol";
-import "./interfaces/IGlacierGauge.sol";
+import "./interfaces/IFvmRouter.sol";
+import "./interfaces/IFvmGauge.sol";
+import "./interfaces/IoFVM.sol";
+import "../interfaces/IPurse.sol";
 
-contract _StratBaseX is Ownable, Pausable {
+import "hardhat/console.sol";
+
+contract _FvmStratBase is Ownable, Pausable {
     using SafeERC20 for IERC20;
 
     // Tokens
-    address public constant wavax = address(0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7);
-    address public constant glcr = address(0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6);
+    address public constant wftm = address(0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83);
+    address public constant ofvm = address(0xF9EDdca6B1e548B0EC8cDDEc131464F462b8310D);
+    address public constant fvm  = address(0x07BB65fAaC502d4996532F834A1B7ba5dC32Ff96);
     address public want;
     address public feeToken;
     address[] public rewardTokens;
@@ -23,18 +28,16 @@ contract _StratBaseX is Ownable, Pausable {
     address public router;
 
     // Strategy addresses
-    address public xexadons;
-    address public team;
-    address public sentinel;
-    // address public xexadons     = address(0x8eD98Eeb0c360d1b7C8ab5e85Dc792A1e4B18D8c);
-    // address public team         = address(0x04345e22cd5781C8264A611c056DDFA8bbCddfA4);
-    // address public sentinel     = address(0xb494596247E9068be1b042dB2f6E74E7fc85BE32);
+    address public xexadons     = address(0x8eD98Eeb0c360d1b7C8ab5e85Dc792A1e4B18D8c);
+    address public team         = address(0x04345e22cd5781C8264A611c056DDFA8bbCddfA4);
+    address public sentinel     = address(0xb494596247E9068be1b042dB2f6E74E7fc85BE32);
     address public strategist;
     address public vault;
+    address public purse;
 
     //Routes
-    IGlacierRouter.Routes[] public feeTokenPath;
-    IGlacierRouter.Routes[] public customPath;
+    IFvmRouter.route[] public feeTokenPath;
+    IFvmRouter.route[] public customPath;
 
     // Controllers
     bool public stable = false;
@@ -66,20 +69,25 @@ contract _StratBaseX is Ownable, Pausable {
         address _gauge,
         address _router,
         address _feeToken,
-        IGlacierRouter.Routes[] memory _feeTokenPath
+        IFvmRouter.route[] memory _feeTokenPath,
+        address _purse
     ) {
         strategist = msg.sender;
         want = _want;
         gauge = _gauge;
         router = _router;
         feeToken = _feeToken;
+        purse = _purse;
 
         for (uint i; i < _feeTokenPath.length; ++i) {
             feeTokenPath.push(_feeTokenPath[i]);
         }
 
-        rewardTokens.push(glcr);
+        rewardTokens.push(fvm);
         harvestOnDeposit = false;
+
+        IERC20(wftm).safeApprove(ofvm, type(uint).max);
+        IERC20(fvm).approve(router, type(uint).max);
     }
 
     /** @dev Function to synchronize balances before new user deposit. Can be overridden in the strategy. */
@@ -104,7 +112,8 @@ contract _StratBaseX is Ownable, Pausable {
 
     function _deposit() internal whenNotPaused {
         uint256 wantBal = IERC20(want).balanceOf(address(this));
-        IGlacierGauge(gauge).deposit(wantBal, 0);
+        if (wantBal > 0)
+            IFvmGauge(gauge).deposit(wantBal, 0);
     }
 
     function withdraw(uint256 _amount) external {
@@ -113,7 +122,7 @@ contract _StratBaseX is Ownable, Pausable {
         uint256 wantBal = IERC20(want).balanceOf(address(this));
 
         if (wantBal < _amount) {
-            IGlacierGauge(gauge).withdraw(_amount - wantBal);
+            IFvmGauge(gauge).withdraw(_amount - wantBal);
             wantBal = IERC20(want).balanceOf(address(this));
         }
 
@@ -136,10 +145,13 @@ contract _StratBaseX is Ownable, Pausable {
             require(!Address.isContract(msg.sender), "!EOA");
         }
 
-        IGlacierGauge(gauge).getReward(address(this), rewardTokens);
-        uint256 outputBal = IERC20(glcr).balanceOf(address(this));
+        IFvmGauge(gauge).getReward(address(this), rewardTokens);
+        uint256 outputBal = IERC20(ofvm).balanceOf(address(this));
+
+        console.log("* Reward received:", outputBal);
 
         if (outputBal > 0 ) {
+            swapOFVMforWFTM();
             chargeFees(caller);
             addLiquidity();
         }
@@ -149,20 +161,60 @@ contract _StratBaseX is Ownable, Pausable {
     }
 
     /** @dev This function converts charges fees in selected feeToken and sends to respective accounts */
+    /** FEE TOKEN IS WFTM ON FANTOM */
     function chargeFees(address caller) internal {
-        uint256 toFee = IERC20(glcr).balanceOf(address(this)) * PLATFORM_FEE / FEE_DIVISOR;
+        uint256 toFee = IERC20(wftm).balanceOf(address(this)) * PLATFORM_FEE / FEE_DIVISOR;
+        
+        console.log("* Fee amount:", toFee);
 
-        if(feeToken != glcr){
-            IGlacierRouter(router).swapExactTokensForTokens(toFee, 0, feeTokenPath, address(this), block.timestamp);
-        }
+        distroFee(toFee, caller);
 
-        uint256 feeBal = IERC20(feeToken).balanceOf(address(this));
+        // if(feeToken != ofvm){
+        //     IFvmRouter(router).swapExactTokensForTokens(toFee, 0, feeTokenPath, address(this), block.timestamp);
+        // }
 
-        if(feeToken == glcr){
-            distroRewardFee(feeBal, caller);
-        }else{ 
-            distroFee(feeBal, caller); 
-        }
+        // uint256 feeBal = IERC20(feeToken).balanceOf(address(this));
+
+        // if(feeToken == ofvm){
+        //     distroRewardFee(feeBal, caller);
+        // }else{ 
+        //    distroFee(feeBal, caller); 
+        // }
+    }
+
+    function swapOFVMforWFTM() internal {
+        // 1. Calculate WFTM needed to exchange oFVM to FVM,
+        // 2. Withdraw WFTM from purse,
+        // 3. Exchange oFVM for FVM,
+        // 4. Swap FVM for WFTM,
+        // 5. Return borrowed WFTM,
+        uint256 rewardBal = IERC20(ofvm).balanceOf(address(this));
+
+        console.log("* rewardBal", rewardBal);
+
+        // 1. Calculate WFTM needed to exchange oFVM to FVM (allow for slippage):
+        uint256 wftmNeeded = (IoFVM(ofvm).getDiscountedPrice(rewardBal) * 1001) / 1000;
+        
+        console.log("* wftmNeeded", wftmNeeded);
+        console.log("* Strat wftm balance", IERC20(wftm).balanceOf(address(this)));
+
+        // 2. Withdraw WFTM from purse:
+        IPurse(purse).withdraw(wftm, wftmNeeded);
+        require(IERC20(wftm).balanceOf(address(this)) >= wftmNeeded, "Not enough from purse");
+
+        console.log("* Purse remaining balance:", IERC20(wftm).balanceOf(purse));
+        console.log("* Strat bal of wftm:", IERC20(wftm).balanceOf(address(this)));
+
+        // 3. Exchange oFVM for FVM:
+        IoFVM(ofvm).exercise(rewardBal, (wftmNeeded * 110) / 100, address(this));
+
+        // 4. Swap FVM for WFTM:
+        IFvmRouter(router).swapExactTokensForTokens(
+            IERC20(fvm).balanceOf(address(this)), 
+            0, feeTokenPath, address(this), block.timestamp);
+        
+        // 5. Return borrowed WFTM (with interest):
+        IERC20(wftm).safeTransfer(purse, (wftmNeeded * 1001) / 1000);
     }
 
     /** @dev Converts reward to both sides of the LP token and builds the liquidity pair */
@@ -173,14 +225,14 @@ contract _StratBaseX is Ownable, Pausable {
         uint256 outputBal = rewardBalance();
         uint256 wrappedOut;
         if (outputBal > 0) {
-            (wrappedOut,) = IGlacierRouter(router).getAmountOut(outputBal, glcr, wavax);
+            (wrappedOut,) = IFvmRouter(router).getAmountOut(outputBal, ofvm, wftm);
         }
         return wrappedOut * PLATFORM_FEE / FEE_DIVISOR * CALL_FEE / FEE_DIVISOR;
     }
 
     // returns rewards unharvested
     function rewardBalance() public view returns (uint256) {
-        return IGlacierGauge(gauge).earned(glcr, address(this));
+        return IFvmGauge(gauge).earned(ofvm, address(this));
     }
 
     /** @dev calculate the total underlying 'want' held by the strat */
@@ -195,14 +247,14 @@ contract _StratBaseX is Ownable, Pausable {
 
     /** @dev it calculates how much 'want' the strategy has working in the farm */
     function balanceOfPool() public view returns (uint256) {
-        return IGlacierGauge(gauge).balanceOf(address(this));
+        return IFvmGauge(gauge).derivedBalance(address(this));
     }
 
     /** @dev called as part of strat migration. Sends all the available funds back to the vault */
     function retireStrat() external {
         require(msg.sender == vault, "!vault");
         _harvest(msg.sender);
-        IGlacierGauge(gauge).withdraw(balanceOfPool());
+        IFvmGauge(gauge).withdraw(balanceOfPool());
         IERC20(want).transfer(vault, balanceOfWant());
 
         emit RetireStrat(msg.sender);
@@ -212,7 +264,7 @@ contract _StratBaseX is Ownable, Pausable {
     function panic() external {
         require(msg.sender == strategist || msg.sender == owner() || msg.sender == sentinel, "!auth");
         pause();
-        IGlacierGauge(gauge).withdraw(balanceOfPool());
+        IFvmGauge(gauge).withdraw(balanceOfPool());
         emit Panic(msg.sender);
     }
 
@@ -241,7 +293,7 @@ contract _StratBaseX is Ownable, Pausable {
     said token to the {output} token of the strategy, allowing the amount to be paid out to stakers in the next harvest. */
     function makeCustomTxn(address [][] memory _tokens, bool[] calldata _stable) external onlyAdmin {
         for (uint i; i < _tokens.length; ++i) {
-            customPath.push(IGlacierRouter.Routes({
+            customPath.push(IFvmRouter.route({
                 from: _tokens[i][0],
                 to: _tokens[i][1],
                 stable: _stable[i]
@@ -251,7 +303,7 @@ contract _StratBaseX is Ownable, Pausable {
 
         IERC20(_tokens[0][0]).safeApprove(router, 0);
         IERC20(_tokens[0][0]).safeApprove(router, type(uint).max);
-        IGlacierRouter(router).swapExactTokensForTokens(bal, 0, customPath, address(this), block.timestamp + 600);
+        IFvmRouter(router).swapExactTokensForTokens(bal, 0, customPath, address(this), block.timestamp + 600);
 
         emit MakeCustomTxn(_tokens[0][0], _tokens[0][_tokens.length - 1], bal);
     }
@@ -270,21 +322,21 @@ contract _StratBaseX is Ownable, Pausable {
         IERC20(feeToken).safeTransfer(strategist, stratFee);
     }
 
-    function distroRewardFee(uint256 feeBal, address caller) internal {
-        uint256 rewardFee = feeBal * PLATFORM_FEE / FEE_DIVISOR;
+    // function distroRewardFee(uint256 feeBal, address caller) internal {
+    //     uint256 rewardFee = feeBal * PLATFORM_FEE / FEE_DIVISOR;
 
-        uint256 callFee = rewardFee * CALL_FEE / FEE_DIVISOR;
-        IERC20(feeToken).safeTransfer(caller, callFee);
+    //     uint256 callFee = rewardFee * CALL_FEE / FEE_DIVISOR;
+    //     IERC20(feeToken).safeTransfer(caller, callFee);
 
-        uint256 teamFee = rewardFee * TEAM_FEE / FEE_DIVISOR;
-        IERC20(feeToken).safeTransfer(team, teamFee);
+    //     uint256 teamFee = rewardFee * TEAM_FEE / FEE_DIVISOR;
+    //     IERC20(feeToken).safeTransfer(team, teamFee);
 
-        uint256 xexadonsFee = rewardFee * XEXADON_FEE / FEE_DIVISOR;
-        IERC20(feeToken).safeTransfer(xexadons, xexadonsFee);
+    //     uint256 xexadonsFee = rewardFee * XEXADON_FEE / FEE_DIVISOR;
+    //     IERC20(feeToken).safeTransfer(xexadons, xexadonsFee);
 
-        uint256 stratFee = rewardFee * STRAT_FEE / FEE_DIVISOR;
-        IERC20(feeToken).safeTransfer(strategist, stratFee);
-    }
+    //     uint256 stratFee = rewardFee * STRAT_FEE / FEE_DIVISOR;
+    //     IERC20(feeToken).safeTransfer(strategist, stratFee);
+    // }
 
 
     // Sets the fee amounts
@@ -321,19 +373,6 @@ contract _StratBaseX is Ownable, Pausable {
             strategist = newAddress;
             emit SetStrategist(newAddress);
         }
-    }
-
-    function setFeeToken(address _feeToken, IGlacierRouter.Routes[] memory _feeTokenPath) external onlyAdmin {
-        feeToken = _feeToken;
-        delete feeTokenPath;
-
-        for (uint i; i < _feeTokenPath.length; ++i) {
-            feeTokenPath.push(_feeTokenPath[i]);
-        }
-
-        IERC20(_feeToken).safeApprove(router, 0);
-        IERC20(_feeToken).safeApprove(router, type(uint).max);
-        emit SetFeeToken(_feeToken);
     }
 
     // Sets harvestOnDeposit

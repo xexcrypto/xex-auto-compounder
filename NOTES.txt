@@ -1,3 +1,11 @@
+Trace Solidity
+~~~~~~~~~~~~~~
+
+Run with the --trace flag to enable hardhat-trace i.e.:
+
+npx hardhat test test/Glacier/test-SlipIn_v2.js --trace
+
+
 Contracts tested good
 ~~~~~~~~~~~~~~~~~~~~~
 

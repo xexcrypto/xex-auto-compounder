@@ -17,7 +17,7 @@ task("deploy", "* Deploy a strategy and vault")
       console.log('== TEST MODE ==')
 
     // Load config:
-    let config = JSON.parse(await helpers.getJsonFile('strategies-config.json', '{}'));
+    let config = JSON.parse(await helpers.getJsonFile('strategies-glacier-config.json', '{}'));
 
     if (!taskArguments.deployAll){
       // filter config:

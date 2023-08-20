@@ -1,6 +1,7 @@
 const { expect } = require("chai");
 const ERC20ABI = require('./abi/ERC20.json');
 const VAULTABI = require('../artifacts/contracts/interfaces/IVault.sol/IVault.json').abi;
+const WRAPPEDABI = require('./abi/WAVAX.json');
 
 const addrs = {
   GLRouter:   '0xC5B8Ce3C8C171d506DEb069a6136a351Ee1629DC',
@@ -18,6 +19,7 @@ let feeRecipBal = 0;
 let Vault;
 let Signers = {};
 let Want;
+let Wavax;
 
 describe("Testing Slip", async () => {
 
@@ -36,6 +38,8 @@ describe("Testing Slip", async () => {
     // Make contracts:
     Vault = new ethers.Contract(addrs.vault, ERC20ABI, ethers.provider)
     Want = new ethers.Contract(addrs.want, ERC20ABI, ethers.provider)
+    
+    Wavax = new ethers.Contract(addrs.wavax, WRAPPEDABI, ethers.provider)
 
     Signers.user1 = await ethers.getImpersonatedSigner(addrs.user1);
   })
@@ -57,7 +61,6 @@ describe("Testing Slip", async () => {
   describe('Try sliping in AVAX', async () => {
 
     it('Get fee recip balance b4', async () => {
-      const Wavax = new ethers.Contract(addrs.wavax, ERC20ABI, ethers.provider)
       const bal = await Wavax.balanceOf(addrs.strategist)
 
       console.log('Strat bal b4:', ethers.utils.formatEther(bal))
@@ -76,6 +79,7 @@ describe("Testing Slip", async () => {
         // [{ from: addrs.wavax, to: addrs.wavax, stable: false }], //IGlacierRouter.Routes[] memory _pathToToken1,
         [], //IGlacierRouter.Routes[] memory _pathToToken1,
         '0x4fbfac932Bcbb9753eFd12AC7DFEe4BAf0bE3Eb8', //address _vault, 
+        5,  // 5% slippage
         {
           value:ethers.utils.parseEther("1"),
           // maxFeePerGas: feeData.maxFeePerGas
@@ -87,7 +91,7 @@ describe("Testing Slip", async () => {
       const rcpt = await tx.wait()
 
       // const rcpt = await ethers.provider.getTransactionReceipt(tx.hash)
-      // console.log(rcpt.events)
+      // console.log(rcpt.events[5].args['amount'] / 10**18)
 
       // console.log(tx)
     })
@@ -120,6 +124,103 @@ describe("Testing Slip", async () => {
 
     it('Check value of returned LP', async () => {
 
+    })
+
+  })
+
+
+  describe('Try slipping out AVAX', async () => {
+
+    
+  })
+
+
+
+
+
+
+
+
+
+  describe('Try sliping in WAVAX', async () => {
+    
+    it('Get fee recip balance b4', async () => {
+      const bal = await Wavax.balanceOf(addrs.strategist)
+
+      console.log('Strat bal b4:', ethers.utils.formatEther(bal))
+      feeRecipBal = bal / 10**18
+    })
+
+    it('Convert AVAX to WAVAX', async () => {
+      const amountToDeposit = ethers.utils.parseEther("1")
+      const tx = await Wavax.connect(Signers.user1).deposit({value:amountToDeposit})
+      const rcpt = await tx.wait()
+
+      // Get balance of Wavax:
+      const bal = await Wavax.balanceOf(addrs.user1)
+      console.log('User1 balance:', bal/10**18)
+
+      expect(bal).gt(0)
+    })
+
+    it('Approve Slip to spend my WAVAX', async () => {
+      const amountToSlip = ethers.utils.parseEther("1")
+      const tx = await Wavax.connect(Signers.user1).approve(slipIn.address, amountToSlip)
+      await tx.wait()
+
+      // get allowance:
+      const allowance = await Wavax.allowance(addrs.user1, slipIn.address)
+      console.log('WAVAX Allowance:', allowance / 10**18)
+
+      expect(allowance).gte(amountToSlip)
+    })
+
+    it('Can slip in WAVAX', async () => {
+      //
+      const feeData = await hre.ethers.provider.getFeeData()
+
+      const tx = await slipIn.connect(Signers.user1).slipIn(
+        ethers.utils.parseEther("1"),
+        addrs.glcr,   //address _token0,
+        addrs.wavax,  //address _token1,
+        false,  //bool _stable,
+        [{ from: addrs.wavax, to: addrs.glcr, stable: false }], //IGlacierRouter.Routes[] memory _pathToToken0,
+        // [{ from: addrs.wavax, to: addrs.wavax, stable: false }], //IGlacierRouter.Routes[] memory _pathToToken1,
+        [], //IGlacierRouter.Routes[] memory _pathToToken1,
+        '0x4fbfac932Bcbb9753eFd12AC7DFEe4BAf0bE3Eb8', //address _vault, 
+        5,  // 5% slippage
+        {
+          // value:ethers.utils.parseEther("1"),
+          // maxFeePerGas: feeData.maxFeePerGas
+          maxFeePerGas: ethers.utils.parseUnits('100', 'gwei'),
+          // gasLimit: 6000000,
+          // gasPrice: ethers.utils.parseUnits('50', 'gwei'),
+        }
+      )
+      const rcpt = await tx.wait()
+
+      // const rcpt = await ethers.provider.getTransactionReceipt(tx.hash)
+      // console.log(rcpt.events)
+
+      // console.log(tx)
+    })
+
+    it('User received Vault token balance', async () => {
+      const bal = await Vault.connect(ethers.provider).balanceOf(Signers.user1.address)
+
+      expect(bal/10**18).gt(0)
+    })
+
+    it('Can withdraw LP from vault', async () => {
+      const v = new ethers.Contract(addrs.vault, VAULTABI, Signers.user1)
+      const tx = await v.withdrawAll()
+      await tx.wait()
+
+      // Check user balance of want:
+      const bal = await Want.balanceOf(addrs.user1)
+      console.log(bal / 10**18)
+      // const v = new ethers.Contract(addrs.vault, VAULTABI, Signers.user1)
+      // const tx2 = await v.
     })
 
   })
