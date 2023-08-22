@@ -1,18 +1,18 @@
 const base = require('./modules/vaultStratBase')
 
-describe("MIM-GRAPE", base.main(
+describe("MIM-WINE", base.main(
   // Contract, stratName
-  'StratXXm', 'MIM-GRAPE',
+  'StratXXm', 'MIM-WINE',
   // Want, Gauge
-  '0x9A6e6CA75FF2Fd0b70027Bbe844f5Afa612Dd773', '0x450b3912937813f12a5B3960fdc2BBE995CeA33b', 
+  '0x5C253047878caB70D6d3C56C867e54EEEa9cfe5b', '0x448c3Ac0dd9aCF91F17455B7F285E7f58b3491d8', 
   // Token0, Token0 Name
   '0x130966628846BFd36ff31a822705796e8cb8C18D', 'MIM', 
   // Token1, Token1 Name
-  '0x5541D83EFaD1f281571B343977648B75d95cdAC2', 'GRAPE',
+  '0xC55036B5348CfB45a932481744645985010d3A44', 'WINE',
   // Has token0, token0 Qty
-  '0xae64a325027c3c14cf6abc7818aa3b9c07f5c799', 1, 
+  '0xae64a325027c3c14cf6abc7818aa3b9c07f5c799', 10, 
   // has token1, token1 Qty
-  '0xb382247667fe8ca5327ca1fa4835ae77a9907bc8', 63,
+  '0x00cb5b42684da62909665d8151ff80d1567722c3', 11,
   // Path GLCR to token0:
   [
   {
@@ -54,7 +54,7 @@ describe("MIM-GRAPE", base.main(
     "pathsSimple": [
       "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
       "0x130966628846BFd36ff31a822705796e8cb8C18D",
-      "0x5541D83EFaD1f281571B343977648B75d95cdAC2"
+      "0xC55036B5348CfB45a932481744645985010d3A44"
     ]
   }
 ],

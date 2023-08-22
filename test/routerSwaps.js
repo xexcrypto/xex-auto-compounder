@@ -104,7 +104,7 @@ const SWAP_PATH = [
 ]
 
 
-const AMOUNT_TO_SWAP = "14176488213651622087";//ethers.utils.parseEther("0.00012");// "1651150070407325462";
+const AMOUNT_TO_SWAP = "1242447167370134";//ethers.utils.parseEther("0.00012");// "1651150070407325462";
 
 
 /*******************************************

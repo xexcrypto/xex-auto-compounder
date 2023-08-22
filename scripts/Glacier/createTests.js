@@ -32,6 +32,7 @@ const HAS_TOKEN = {
   'fBOMB':    '0x28aa4f9ffe21365473b64c161b566c3cdead0108',  // 0x5C09A9cE08C4B332Ef1CC5f7caDB1158C32767Ce
   'MIM':      '0xae64a325027c3c14cf6abc7818aa3b9c07f5c799',  // 0x130966628846BFd36ff31a822705796e8cb8C18D
   'GRAPE':    '0xb382247667fe8ca5327ca1fa4835ae77a9907bc8',  // 0x5541D83EFaD1f281571B343977648B75d95cdAC2
+  'WINE':     '0x00cb5b42684da62909665d8151ff80d1567722c3',  // 0xC55036B5348CfB45a932481744645985010d3A44
 }
 const TOKEN_AMOUNTS = {
   'WETH.e-USDT.e': { q0:1, q1:1860},
@@ -49,8 +50,9 @@ const TOKEN_AMOUNTS = {
   'xSHRAP-WETH.e': { q0:100, q1:2.5},
   'YAK-WAVAX': { q0:10, q1:0.7},
   'USDC-DEI': { q0:10, q1:2.8},
-  'GLCR-fBOMB': { q0:10, q1:10},
-  'MIM-GRAPE': { q0:1, q1:63},
+  'GLCR-fBOMB': { q0:10, q1:10 },
+  'MIM-GRAPE': { q0:1, q1:63 },
+  'MIM-WINE': { q0:10, q1:11 },
 }
 const IS_STABLE = [
   'USDC-DEI'
@@ -76,6 +78,7 @@ async function main() {
   const jobs = config //.filter(c => runAll || c.name == taskArguments.stratName)
 
   for await(const conf of jobs){
+
     // if disabled, remove the trest file:
     if (disabled.includes(conf.name)){
       // remove test file:
@@ -98,6 +101,16 @@ async function main() {
 
     switch(conf.contract){
       case 'StratXX':{
+        token0 = conf.token0
+        token1 = conf.token1
+        // ratio = conf.price0 / (conf.price1 == 0 ? 1 : conf.price1)
+        // token0Qty = conf.price0
+        // token1Qty = ratio
+        token0Path = conf.path0toX
+        token1Path = conf.path1toX
+        break;
+      }
+      case 'StratXXm':{
         token0 = conf.token0
         token1 = conf.token1
         // ratio = conf.price0 / (conf.price1 == 0 ? 1 : conf.price1)

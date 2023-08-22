@@ -570,5 +570,59 @@
         ]
       }
     ]
-  }
+  },
+  {
+    "name": "MIM-WINE",
+    "contract": "StratXXm",
+    "want": "0x5C253047878caB70D6d3C56C867e54EEEa9cfe5b",
+    "gauge": "0x448c3Ac0dd9aCF91F17455B7F285E7f58b3491d8",
+    "price0": 0,
+    "price1": 0,
+    "token0": "0x130966628846BFd36ff31a822705796e8cb8C18D",
+    "token1": "0xC55036B5348CfB45a932481744645985010d3A44",
+    "path0toX": [ // GLCR to MIM
+      {
+        // Glacier:
+        router:'0xC5B8Ce3C8C171d506DEb069a6136a351Ee1629DC',
+        paths:[
+          // Glacier paths are formatted like this:
+          // GLCR to WAVAX
+          {from:'0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6', to:'0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7', stable:false},
+        ],
+        pathsSimple:[]
+      },
+      {
+        // Trader Joe:
+        router:'0x60aE616a2155Ee3d9A68541Ba4544862310933d4',
+        paths:[],
+        pathsSimple:[
+          // trader Joe paths are just addresses:
+          // WAVAX to MIM:
+          '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7', '0x130966628846BFd36ff31a822705796e8cb8C18D'
+        ]
+      }
+    ],
+    "path1toX": [ // GLCR to WINE
+      {
+        // Glacier:
+        router:'0xC5B8Ce3C8C171d506DEb069a6136a351Ee1629DC',
+        paths:[
+          // Glacier paths are formatted like this:
+          // GLCR to WAVAX
+          {from:'0x3712871408a829C5cd4e86DA1f4CE727eFCD28F6', to:'0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7', stable:false},
+        ],
+        pathsSimple:[]
+      },
+      {
+        // Trader Joe:
+        router:'0x60aE616a2155Ee3d9A68541Ba4544862310933d4',
+        paths:[],
+        pathsSimple:[
+          // trader Joe paths are just addresses:
+          // WAVAX to MIM to WINE:
+          '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7', '0x130966628846BFd36ff31a822705796e8cb8C18D', '0xC55036B5348CfB45a932481744645985010d3A44'
+        ]
+      }
+    ]
+  },
 ]
